@@ -351,8 +351,10 @@ class SegmentAPI(API):
         ):
             self._validate_embedding_record(coll, r)
             records_to_submit.append(r)
-        self._producer.submit_embeddings(coll["topic"], records_to_submit)
-
+        while records_to_submit:
+            current_records = records_to_submit[: self.max_batch_size - 1]
+            self._producer.submit_embeddings(coll["topic"], current_records)
+            records_to_submit = records_to_submit[self.max_batch_size - 1 :]
         return True
 
     @override
