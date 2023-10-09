@@ -337,10 +337,10 @@ class SegmentAPI(API):
     ) -> bool:
         coll = self._get_collection(collection_id)
         self._manager.hint_use_collection(collection_id, t.Operation.UPSERT)
-        validate_batch(
-            (ids, embeddings, metadatas, documents),
-            {"max_batch_size": self.max_batch_size},
-        )
+        # validate_batch(
+        #     (ids, embeddings, metadatas, documents),
+        #     {"max_batch_size": self.max_batch_size},
+        # )
         records_to_submit = []
         for r in _records(
             t.Operation.UPSERT,
